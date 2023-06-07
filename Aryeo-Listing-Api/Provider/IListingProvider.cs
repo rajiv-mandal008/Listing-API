@@ -4,7 +4,8 @@ namespace Aryeo_Listing_Api.Provider
 {
     public interface IListingProvider
     {
-        public void GetLisingList(RequestListing input) { }
+        public void GetListingList(RequestListing input);
 
+        public void SaveListing(ListingDetails input);
     }
 }

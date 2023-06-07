@@ -4,9 +4,10 @@
     {
         public ResponseListing()
         {
-            ListingDetails = new List<ListingDetails>();
+            Data = new List<ListingDetails>();
         }
-       
-        public List<ListingDetails> ListingDetails { get; set; }
+        public string Status { get; set; }
+        public DateTime Timestamp { get; set; }
+        public List<ListingDetails> Data { get; set; }
     }
 }

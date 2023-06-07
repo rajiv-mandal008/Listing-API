@@ -6,7 +6,7 @@ namespace Aryeo_Listing_Api.Model
     [Table("ListingDetails")]
     public class ListingDetails
     {
-        public string? Id { get; set; }
+        public string? Id { get; set; }       
 
         [ForeignKey("AddressDetails")]
         public string? AddressId { get; set; }
@@ -19,8 +19,9 @@ namespace Aryeo_Listing_Api.Model
         public string? Standard_Status { get; set; }
         public string? Thumbnail_URL { get; set; }
         public string? Large_Thumbnail_URL { get; set; }
-        public string? description { get; set; }
+        public string? Description { get; set; }
         public string? List_Price { get; set; }
+
         [ForeignKey("LotDetails")]
         public int LotId { get; set; }
 
