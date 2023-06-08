@@ -6,10 +6,10 @@ namespace Aryeo_Listing_Api.Model
     [Table("ListingDetails")]
     public class ListingDetails
     {
-        public string? Id { get; set; }       
+        public string Id { get; set; }       
 
         [ForeignKey("AddressDetails")]
-        public string? AddressId { get; set; }
+        public string AddressId { get; set; }
         [JsonIgnore]
         public AddressDetails? Address { get; set; }
         public string? Mls_Number { get; set; }

@@ -9,10 +9,10 @@ namespace Aryeo_Listing_Api.Controllers
     [Route("[controller]")]
     public class AryeoController : ControllerBase
     {
-        private readonly IListingProvider _listingProvider;
+        private readonly IRestAPIProvider _listingProvider;
         private readonly ILogger<AryeoController> _logger;
 
-        public AryeoController(ILogger<AryeoController> logger, IListingProvider listingProvider)
+        public AryeoController(ILogger<AryeoController> logger, IRestAPIProvider listingProvider)
         {
             _logger = logger;
             _listingProvider = listingProvider;

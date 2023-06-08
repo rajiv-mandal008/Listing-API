@@ -8,18 +8,15 @@ namespace Aryeo_Listing_Api.Provider
     /// </summary>    
     public class ApplicationDBContext : DbContext
     {
-        protected readonly IConfiguration Configuration;
-
-        public ApplicationDBContext(IConfiguration configuration)
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
-            Configuration = configuration;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+        //    // connect to sql server with connection string from app settings
+        //    //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+        //}
 
         public DbSet<ListingDetails> ListingDetails { get; set; }
         public DbSet<BuildingDetails> BuildingDetails { get; set; }

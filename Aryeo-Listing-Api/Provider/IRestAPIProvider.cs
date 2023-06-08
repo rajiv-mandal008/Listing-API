@@ -2,10 +2,8 @@
 
 namespace Aryeo_Listing_Api.Provider
 {
-    public interface IListingProvider
+    public interface IRestAPIProvider
     {
         public void GetListingList(RequestListing input);
-
-        public void SaveListing(ListingDetails input);
     }
 }
