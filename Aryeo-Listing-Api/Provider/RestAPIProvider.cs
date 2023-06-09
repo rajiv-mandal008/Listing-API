@@ -14,7 +14,7 @@ namespace Aryeo_Listing_Api.Provider
             Configuration = configuration;
             _dataProvider = dataProvider;
         }
-        public void GetListingList(RequestListing input)
+        public ResponseListing GetListingList(RequestListing input)
         {
             string url = "https://api.aryeo.com/v1/listings?per_page=100";
             string response = RetriveDataFromRestAPI(url);
@@ -31,7 +31,7 @@ namespace Aryeo_Listing_Api.Provider
                 {
                     JObject jsonMeta = (JObject)jsonModel["meta"];
                     int totalPage = jsonMeta.GetValue("last_page") != null ? Convert.ToInt32(jsonMeta.GetValue("last_page")) : 0;
-
+                    int totalCount = jsonMeta.GetValue("total") != null ? Convert.ToInt32(jsonMeta.GetValue("total")) : 0;
                     //Process first time call data
                     ProccessJsonData(jsonModel);
                     for (int i = 2; i < totalPage; i++)
@@ -44,6 +44,22 @@ namespace Aryeo_Listing_Api.Provider
                         //Process 2nd onward call data
                         ProccessJsonData(childJsonModel);
                     }
+
+                    ResponseListing obj = new()
+                    {
+                        ResponseMessage = "Record saved successfuly!",
+                        TotalRecordInserted = totalCount
+                    };
+                    return obj;
+                }
+                else
+                {
+                    ResponseListing obj = new()
+                    {
+                        ResponseMessage = "Record not saved!",
+                        TotalRecordInserted = 0
+                    };
+                    return obj;
                 }
             }
             catch (Exception)
@@ -53,7 +69,7 @@ namespace Aryeo_Listing_Api.Provider
             }
         }
 
-        private void ProccessJsonData(JObject jsonModel)
+        private async Task ProccessJsonData(JObject jsonModel)
         {
             List<ListingDetails> list = new();
 
@@ -127,9 +143,9 @@ namespace Aryeo_Listing_Api.Provider
             var client = new RestClient(url);
             var request = new RestRequest();
             request.AddHeader("accept", "application/json");
-            request.AddHeader("authorization", "Bearer 21426|uCQIVFuRxryP3t7XpIgLZsVbwQlOlkOIlbUMbiu7"); //replace abc with correct token
+            request.AddHeader("authorization", "Bearer abc"); //replace abc with correct token
             var response = client.Execute(request);
             return response.Content;
-        }        
+        }
     }
 }

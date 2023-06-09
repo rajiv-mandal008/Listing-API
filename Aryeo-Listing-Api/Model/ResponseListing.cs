@@ -2,12 +2,7 @@
 {
     public class ResponseListing
     {
-        public ResponseListing()
-        {
-            Data = new List<ListingDetails>();
-        }
-        public string Status { get; set; }
-        public DateTime Timestamp { get; set; }
-        public List<ListingDetails> Data { get; set; }
+        public string ResponseMessage { get; set; }
+        public int TotalRecordInserted { get; set; }
     }
 }

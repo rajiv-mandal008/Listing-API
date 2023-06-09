@@ -1,5 +1,6 @@
 using Aryeo_Listing_Api.Provider;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace Aryeo_Listing_Api
@@ -22,10 +23,13 @@ namespace Aryeo_Listing_Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Aryeo_Listing_Api", Version = "v1" });
             });
 
-            services.AddDbContext<ApplicationDBContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDBContext>(item =>
+            {
+                item.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddScoped<IRestAPIProvider, RestAPIProvider>();
-            services.AddTransient<IDataProvider, DataProvider>();
+            services.AddScoped<IDataProvider, DataProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

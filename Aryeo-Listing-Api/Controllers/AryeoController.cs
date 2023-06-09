@@ -21,7 +21,7 @@ namespace Aryeo_Listing_Api.Controllers
         [AllowAnonymous]
         [HttpGet(Name = "GetAreyoListing")]
         //[Route("GetAreyoListing/filter/{address?}/{agent?}/{status?}/{active?}/{price_gte?}/{price_lte?}/{square_feet_gte?}/{square_feet_lte?}/{bedrooms_gte?}/{bedrooms_lte?}/{bathrooms_gte}")]
-        public IEnumerable<string> Get()
+        public IEnumerable<ResponseListing> Get()
         {
             //string? address = null, string? agent = null, string? status = null, bool? active = null, decimal? price_gte = null,
             //decimal? price_lte = null, decimal? square_feet_gte = null, decimal? square_feet_lte = null, int? bedrooms_gte = null,
@@ -43,8 +43,8 @@ namespace Aryeo_Listing_Api.Controllers
             //    Per_Page = 25,
             //    Page = 1
             //};
-            _listingProvider.GetListingList(RqListing);
-            yield return "";
+           var response= _listingProvider.GetListingList(RqListing);
+            yield return response;
         }
     }
 }

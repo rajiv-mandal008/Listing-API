@@ -10,13 +10,15 @@ namespace Aryeo_Listing_Api.Provider
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
+            InitalizeContext();
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder options)
-        //{
-        //    // connect to sql server with connection string from app settings
-        //    //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-        //}
+        protected virtual void InitalizeContext()
+        {
+            ChangeTracker.AutoDetectChangesEnabled = false;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //Database.SetCommandTimeout(360);
+        }        
 
         public DbSet<ListingDetails> ListingDetails { get; set; }
         public DbSet<BuildingDetails> BuildingDetails { get; set; }

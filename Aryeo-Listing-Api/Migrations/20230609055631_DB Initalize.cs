@@ -5,7 +5,7 @@
 namespace Aryeo_Listing_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class DBInitialize : Migration
+    public partial class DBInitalize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,7 +72,7 @@ namespace Aryeo_Listing_Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Mls_Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sub_Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -80,7 +80,7 @@ namespace Aryeo_Listing_Api.Migrations
                     Standard_Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Thumbnail_URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Large_Thumbnail_URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     List_Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LotId = table.Column<int>(type: "int", nullable: false),
                     BuildingId = table.Column<int>(type: "int", nullable: false),
@@ -95,7 +95,8 @@ namespace Aryeo_Listing_Api.Migrations
                         name: "FK_ListingDetails_AddressDetails_AddressId",
                         column: x => x.AddressId,
                         principalTable: "AddressDetails",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ListingDetails_BuildingDetails_BuildingId",
                         column: x => x.BuildingId,

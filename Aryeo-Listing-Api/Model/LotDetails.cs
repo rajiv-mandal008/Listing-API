@@ -8,7 +8,7 @@ namespace Aryeo_Listing_Api.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string? Lot_Size_Acres { get; set; }
         public string? Lot_Open_Parking_Spaces { get; set; }
     }
