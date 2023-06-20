@@ -26,6 +26,8 @@ namespace Aryeo_Listing_Api
             services.AddDbContext<ApplicationDBContext>(item =>
             {
                 item.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                item.EnableSensitiveDataLogging();
+                item.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             services.AddScoped<IRestAPIProvider, RestAPIProvider>();

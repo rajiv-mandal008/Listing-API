@@ -5,7 +5,7 @@
 namespace Aryeo_Listing_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class DBInitalize : Migration
+    public partial class DBInitialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,7 +41,7 @@ namespace Aryeo_Listing_Api.Migrations
                 name: "BuildingDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Bedrooms = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bathrooms = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -57,7 +57,7 @@ namespace Aryeo_Listing_Api.Migrations
                 name: "LotDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Lot_Size_Acres = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Lot_Open_Parking_Spaces = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -82,8 +82,8 @@ namespace Aryeo_Listing_Api.Migrations
                     Large_Thumbnail_URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     List_Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LotId = table.Column<int>(type: "int", nullable: false),
-                    BuildingId = table.Column<int>(type: "int", nullable: false),
+                    LotId = table.Column<long>(type: "bigint", nullable: false),
+                    BuildingId = table.Column<long>(type: "bigint", nullable: false),
                     Floor_Plans = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Interactive_Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Downloads_Enabled = table.Column<bool>(type: "bit", nullable: false)

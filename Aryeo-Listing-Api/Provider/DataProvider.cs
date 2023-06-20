@@ -7,10 +7,12 @@ namespace Aryeo_Listing_Api.Provider
     {
         protected readonly IConfiguration Configuration;
         private readonly ApplicationDBContext _db;
-        public DataProvider(IConfiguration configuration, ApplicationDBContext db)
+        private readonly ILogger<RestAPIProvider> _logger;
+        public DataProvider(IConfiguration configuration, ApplicationDBContext db, ILogger<RestAPIProvider> logger)
         {
             Configuration = configuration;
             _db = db;
+            _logger = logger;
         }
 
         public void SaveListing(List<ListingDetails> list)
@@ -21,77 +23,77 @@ namespace Aryeo_Listing_Api.Provider
                 {
                     //check listing
                     var listing = _db.ListingDetails.Where(p => p.Id == item.Id).FirstOrDefault();
+
                     if (listing == null)
                     {
                         //Save Address
-                        
                         var add = _db.AddressDetails.Where(p => p.Id == item.AddressId).FirstOrDefault();
                         if (add == null)
                         {
                             AddressDetails address = item.Address;
-                            _db.Entry(address).State = EntityState.Added;
-                            _db.SaveChanges();
-                        }
-                        else
-                        {
-                            UpdateAddress(add.Id, item.Address);
+                            //_db.Entry(address).State = EntityState.Added;
+                            _db.AddressDetails.Add(address);
                         }
 
                         //Save Lot
                         LotDetails lot = item.LotDetails;
-                        _db.Entry(lot).State = EntityState.Added;
-                        _db.SaveChanges();
+                        _db.LotDetails.Add(lot);
 
                         //Save  Building
                         BuildingDetails building = item.Building;
-                        _db.Entry(building).State = EntityState.Added;
-                        _db.SaveChanges();
+                        _db.BuildingDetails.Add(building);
 
                         //Save Listing Details                
                         item.LotId = lot.Id;
                         item.BuildingId = building.Id;
-                        _db.Entry(item).State = EntityState.Added;
+                        _db.ListingDetails.Add(item);
+
                         _db.SaveChanges();
                     }
                     else
                     {
-                        UpdateAddress(listing.AddressId, item.Address);
+                        //UpdateAddress(listing.AddressId, item.Address);
 
-                        UpdateLot(listing.LotId, item.LotDetails);
+                        //UpdateLot(listing.LotId, item.LotDetails);
 
-                        UpdateBuilding(listing.BuildingId, item.Building);
+                        //UpdateBuilding(listing.BuildingId, item.Building);
 
-                        UpdateListingDetails(listing, item);
+                        //UpdateListingDetails(listing, item);
+
+                        //_db.SaveChanges();
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.Message);
                 throw;
             }
         }
 
-        private void UpdateLot(int? lotId, LotDetails? newLot)
+        private void UpdateLot(long? lotId, LotDetails? newLot)
         {
             var lot = _db.LotDetails.Where(p => p.Id == lotId).FirstOrDefault();
-            lot.Lot_Size_Acres = newLot.Lot_Size_Acres;
-            lot.Lot_Open_Parking_Spaces = newLot.Lot_Open_Parking_Spaces;
-            _db.Update(lot);
-            _db.SaveChanges();
+            if (lot != null)
+            {
+                lot.Lot_Size_Acres = newLot.Lot_Size_Acres;
+                lot.Lot_Open_Parking_Spaces = newLot.Lot_Open_Parking_Spaces;
+                _db.LotDetails.Update(lot);
+            }
         }
 
-        private void UpdateBuilding(int buildingId, BuildingDetails? newBuilding)
+        private void UpdateBuilding(long buildingId, BuildingDetails? newBuilding)
         {
             var building = _db.BuildingDetails.Where(p => p.Id == buildingId).FirstOrDefault();
+            if (building != null)
+            {
+                building.Bedrooms = newBuilding.Bedrooms;
+                building.Bathrooms = newBuilding.Bathrooms;
+                building.Square_Feet = newBuilding.Square_Feet;
+                building.Year_Built = newBuilding.Year_Built;
 
-            building.Bedrooms = newBuilding.Bedrooms;
-            building.Bathrooms = newBuilding.Bathrooms;
-            building.Square_Feet = newBuilding.Square_Feet;
-            building.Year_Built = newBuilding.Year_Built;
-
-            _db.Update(building);
-            _db.SaveChanges();
+                _db.BuildingDetails.Update(building);
+            }
         }
 
         private void UpdateListingDetails(ListingDetails oldListing, ListingDetails newListing)
@@ -107,32 +109,32 @@ namespace Aryeo_Listing_Api.Provider
             oldListing.Floor_Plans = newListing.Floor_Plans;
             oldListing.Interactive_Content = newListing.Interactive_Content;
             oldListing.Downloads_Enabled = newListing.Downloads_Enabled;
-            _db.Update(oldListing);
-            _db.SaveChanges();
+            _db.ListingDetails.Update(oldListing);
         }
 
-        private void UpdateAddress(string addressId, AddressDetails? newAdd)
+        private void UpdateAddress(string? addressId, AddressDetails? newAdd)
         {
-            var oldAdd = _db.AddressDetails.Where(p => p.Id == addressId).FirstOrDefault();
-
-            oldAdd.IS_Map_Dirty = newAdd.IS_Map_Dirty;
-            oldAdd.Latitude = newAdd.Latitude;
-            oldAdd.Longitude = newAdd.Longitude;
-            oldAdd.Street_Number = newAdd.Street_Number;
-            oldAdd.Unit_Number = newAdd.Unit_Number;
-            oldAdd.Street_Name = newAdd.Street_Name;
-            oldAdd.City = newAdd.City;
-            oldAdd.City_Region = newAdd.City_Region;
-            oldAdd.Country = newAdd.Country;
-            oldAdd.Country_Region = newAdd.Country_Region;
-            oldAdd.Postal_Code = newAdd.Postal_Code;
-            oldAdd.County_Or_Parish = newAdd.County_Or_Parish;
-            oldAdd.State_Or_Province = newAdd.State_Or_Province;
-            oldAdd.State_Or_Province_Region = newAdd.State_Or_Province_Region;
-            oldAdd.Timezone = newAdd.Timezone;
-            oldAdd.Unparsed_Address = newAdd.Unparsed_Address;
-            _db.Update(oldAdd);
-            _db.SaveChanges();
+            var add = _db.AddressDetails.Where(p => p.Id == addressId).FirstOrDefault();
+            if (add != null)
+            {
+                add.IS_Map_Dirty = newAdd.IS_Map_Dirty;
+                add.Latitude = newAdd.Latitude;
+                add.Longitude = newAdd.Longitude;
+                add.Street_Number = newAdd.Street_Number;
+                add.Unit_Number = newAdd.Unit_Number;
+                add.Street_Name = newAdd.Street_Name;
+                add.City = newAdd.City;
+                add.City_Region = newAdd.City_Region;
+                add.Country = newAdd.Country;
+                add.Country_Region = newAdd.Country_Region;
+                add.Postal_Code = newAdd.Postal_Code;
+                add.County_Or_Parish = newAdd.County_Or_Parish;
+                add.State_Or_Province = newAdd.State_Or_Province;
+                add.State_Or_Province_Region = newAdd.State_Or_Province_Region;
+                add.Timezone = newAdd.Timezone;
+                add.Unparsed_Address = newAdd.Unparsed_Address;
+                _db.AddressDetails.Update(add);
+            }
         }
     }
 }

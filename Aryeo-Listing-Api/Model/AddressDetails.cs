@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aryeo_Listing_Api.Model
@@ -24,5 +25,8 @@ namespace Aryeo_Listing_Api.Model
         public string Timezone { get; set; }
         public string Unparsed_Address { get; set; }
         public bool IS_Map_Dirty { get; set; }
+
+        [JsonIgnore]
+        public virtual IEnumerable<ListingDetails> ListingDetails { get; set; }
     }
 }

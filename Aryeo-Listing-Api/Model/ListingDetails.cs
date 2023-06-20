@@ -1,17 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aryeo_Listing_Api.Model
 {
     [Table("ListingDetails")]
     public class ListingDetails
     {
+        [Key]
         public string Id { get; set; }       
 
         [ForeignKey("AddressDetails")]
         public string AddressId { get; set; }
         [JsonIgnore]
-        public AddressDetails? Address { get; set; }
+        public AddressDetails Address { get; set; }
         public string? Mls_Number { get; set; }
         public string? Type { get; set; }
         public string? Sub_Type { get; set; }
@@ -23,16 +25,16 @@ namespace Aryeo_Listing_Api.Model
         public string? List_Price { get; set; }
 
         [ForeignKey("LotDetails")]
-        public int LotId { get; set; }
+        public long LotId { get; set; }
 
         [JsonIgnore]
-        public virtual LotDetails? LotDetails { get; set; }
+        public virtual LotDetails LotDetails { get; set; }
 
         [ForeignKey("BuildingDetails")]
-        public int BuildingId { get; set; }
+        public long BuildingId { get; set; }
 
         [JsonIgnore]
-        public virtual BuildingDetails? Building { get; set; }
+        public virtual BuildingDetails Building { get; set; }
         public string? Floor_Plans { get; set; }
         public string? Interactive_Content { get; set; }
         public bool Downloads_Enabled { get; set; }

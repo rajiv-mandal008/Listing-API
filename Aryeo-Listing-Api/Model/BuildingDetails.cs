@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Aryeo_Listing_Api.Model
 {
@@ -8,10 +9,13 @@ namespace Aryeo_Listing_Api.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string? Bedrooms { get; set; }
         public string? Bathrooms { get; set; }
         public string? Square_Feet { get; set; }
         public string? Year_Built { get; set; }
+
+        [JsonIgnore]
+        public virtual IEnumerable<ListingDetails> ListingDetails { get; set; }
     }
 }

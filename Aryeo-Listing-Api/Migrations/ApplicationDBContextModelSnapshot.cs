@@ -94,11 +94,11 @@ namespace Aryeo_Listing_Api.Migrations
 
             modelBuilder.Entity("Aryeo_Listing_Api.Model.BuildingDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Bathrooms")
                         .HasColumnType("nvarchar(max)");
@@ -126,8 +126,8 @@ namespace Aryeo_Listing_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("BuildingId")
-                        .HasColumnType("int");
+                    b.Property<long>("BuildingId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -147,8 +147,8 @@ namespace Aryeo_Listing_Api.Migrations
                     b.Property<string>("List_Price")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LotId")
-                        .HasColumnType("int");
+                    b.Property<long>("LotId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Mls_Number")
                         .HasColumnType("nvarchar(max)");
@@ -181,11 +181,11 @@ namespace Aryeo_Listing_Api.Migrations
 
             modelBuilder.Entity("Aryeo_Listing_Api.Model.LotDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Lot_Open_Parking_Spaces")
                         .HasColumnType("nvarchar(max)");
@@ -201,19 +201,19 @@ namespace Aryeo_Listing_Api.Migrations
             modelBuilder.Entity("Aryeo_Listing_Api.Model.ListingDetails", b =>
                 {
                     b.HasOne("Aryeo_Listing_Api.Model.AddressDetails", "Address")
-                        .WithMany()
+                        .WithMany("ListingDetails")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Aryeo_Listing_Api.Model.BuildingDetails", "Building")
-                        .WithMany()
+                        .WithMany("ListingDetails")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Aryeo_Listing_Api.Model.LotDetails", "LotDetails")
-                        .WithMany()
+                        .WithMany("ListingDetails")
                         .HasForeignKey("LotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -223,6 +223,21 @@ namespace Aryeo_Listing_Api.Migrations
                     b.Navigation("Building");
 
                     b.Navigation("LotDetails");
+                });
+
+            modelBuilder.Entity("Aryeo_Listing_Api.Model.AddressDetails", b =>
+                {
+                    b.Navigation("ListingDetails");
+                });
+
+            modelBuilder.Entity("Aryeo_Listing_Api.Model.BuildingDetails", b =>
+                {
+                    b.Navigation("ListingDetails");
+                });
+
+            modelBuilder.Entity("Aryeo_Listing_Api.Model.LotDetails", b =>
+                {
+                    b.Navigation("ListingDetails");
                 });
 #pragma warning restore 612, 618
         }
