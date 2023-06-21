@@ -22,16 +22,15 @@ namespace Aryeo_Listing_Api.Provider
                 foreach (var item in list)
                 {
                     //check listing
-                    var listing = _db.ListingDetails.Where(p => p.Id == item.Id).FirstOrDefault();
+                    var listing = _db.ListingDetails.Where(p => p.Id == item.Id).AsNoTracking().FirstOrDefault();
 
                     if (listing == null)
                     {
                         //Save Address
-                        var add = _db.AddressDetails.Where(p => p.Id == item.AddressId).FirstOrDefault();
+                        var add = _db.AddressDetails.Where(p => p.Id == item.AddressId).AsNoTracking().FirstOrDefault();
                         if (add == null)
                         {
                             AddressDetails address = item.Address;
-                            //_db.Entry(address).State = EntityState.Added;
                             _db.AddressDetails.Add(address);
                         }
 
@@ -52,15 +51,15 @@ namespace Aryeo_Listing_Api.Provider
                     }
                     else
                     {
-                        //UpdateAddress(listing.AddressId, item.Address);
+                        UpdateAddress(listing.AddressId, item.Address);
 
-                        //UpdateLot(listing.LotId, item.LotDetails);
+                        UpdateLot(listing.LotId, item.LotDetails);
 
-                        //UpdateBuilding(listing.BuildingId, item.Building);
+                        UpdateBuilding(listing.BuildingId, item.Building);
 
-                        //UpdateListingDetails(listing, item);
+                        UpdateListingDetails(listing, item);
 
-                        //_db.SaveChanges();
+                        _db.SaveChanges();
                     }
                 }
             }
@@ -114,25 +113,12 @@ namespace Aryeo_Listing_Api.Provider
 
         private void UpdateAddress(string? addressId, AddressDetails? newAdd)
         {
-            var add = _db.AddressDetails.Where(p => p.Id == addressId).FirstOrDefault();
+            var add = _db.AddressDetails.Where(p => p.Id == addressId).AsNoTracking().FirstOrDefault();
             if (add != null)
             {
-                add.IS_Map_Dirty = newAdd.IS_Map_Dirty;
-                add.Latitude = newAdd.Latitude;
-                add.Longitude = newAdd.Longitude;
-                add.Street_Number = newAdd.Street_Number;
-                add.Unit_Number = newAdd.Unit_Number;
-                add.Street_Name = newAdd.Street_Name;
-                add.City = newAdd.City;
-                add.City_Region = newAdd.City_Region;
-                add.Country = newAdd.Country;
-                add.Country_Region = newAdd.Country_Region;
-                add.Postal_Code = newAdd.Postal_Code;
-                add.County_Or_Parish = newAdd.County_Or_Parish;
-                add.State_Or_Province = newAdd.State_Or_Province;
-                add.State_Or_Province_Region = newAdd.State_Or_Province_Region;
-                add.Timezone = newAdd.Timezone;
-                add.Unparsed_Address = newAdd.Unparsed_Address;
+                add = newAdd;
+                add.Id = addressId;
+                _db.ChangeTracker.Clear();
                 _db.AddressDetails.Update(add);
             }
         }

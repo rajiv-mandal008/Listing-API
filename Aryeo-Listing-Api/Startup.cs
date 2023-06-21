@@ -26,12 +26,11 @@ namespace Aryeo_Listing_Api
             services.AddDbContext<ApplicationDBContext>(item =>
             {
                 item.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                item.EnableSensitiveDataLogging();
-                item.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                item.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); 
             });
 
             services.AddScoped<IRestAPIProvider, RestAPIProvider>();
-            services.AddScoped<IDataProvider, DataProvider>();
+            services.AddTransient<IDataProvider, DataProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
